@@ -6,7 +6,2039 @@
     <title>The Piece Hall Connect</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="ht<!DOCTYPE html>
+<html lang="en" class="system">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Piece Hall Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!--- Calendar Styles --->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.css">
+    <style>
+        /* --- REFINED GUI STYLES (SKY BLUE THEME) --- */
+        :root {
+            --background-light: #f8fafc; /* slate-50 */
+            --foreground-light: #334155; /* slate-700 */
+            --card-light: #ffffff;
+            --card-border-light: #e2e8f0; /* slate-200 */
+            --primary-light: #0ea5e9; /* sky-500 */
+            --primary-hover-light: #0284c7; /* sky-600 */
+            --primary-text-light: #ffffff;
+            --muted-light: #64748b; /* slate-500 */
+
+            --background-dark: #0f172a; /* slate-900 */
+            --foreground-dark: #cbd5e1; /* slate-300 */
+            --card-dark: #1e293b; /* slate-800 */
+            --card-border-dark: #334155; /* slate-700 */
+            --primary-dark: #38bdf8; /* sky-400 */
+            --primary-hover-dark: #7dd3fc; /* sky-300 */
+            --primary-text-dark: #0f172a; /* slate-900 */
+            --muted-dark: #94a3b8; /* slate-400 */
+        }
+
+        html.light { background-color: var(--background-light); color: var(--foreground-light); }
+        html.dark { background-color: var(--background-dark); color: var(--foreground-dark); }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; transition: background-color 0.3s, color 0.3s; }
+        .input-field { @apply mt-1 block w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all; }
+        .btn-secondary { @apply py-2 px-4 rounded-lg font-semibold bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors; }
+        .btn-danger { @apply py-2 px-4 rounded-lg font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors; }
+        .btn-primary { background-color: var(--primary-light); color: var(--primary-text-light); font-weight: 600; transition: background-color 0.2s ease-in-out; }
+        .btn-primary:hover { background-color: var(--primary-hover-light); }
+        html.dark .btn-primary { background-color: var(--primary-dark); color: var(--primary-text-dark); }
+        html.dark .btn-primary:hover { background-color: var(--primary-hover-dark); }
+        .card { background-color: var(--card-light); border: 1px solid var(--card-border-light); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+        html.dark .card { background-color: var(--card-dark); border-color: var(--card-border-dark); }
+        .text-muted { color: var(--muted-light); }
+        html.dark .text-muted { color: var(--muted-dark); }
+        .sidebar-nav-item { color: #475569; }
+        html.dark .sidebar-nav-item { color: var(--muted-dark); }
+        .sidebar-nav-item:hover { color: var(--primary-light); background-color: #f1f5f9; }
+        html.dark .sidebar-nav-item:hover { color: #e2e8f0; background-color: #334155; }
+        .sidebar-nav-item.active { background-color: var(--primary-light); color: var(--primary-text-light); font-weight: 600; box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+        html.dark .sidebar-nav-item.active { background-color: var(--primary-dark); color: var(--primary-text-dark); }
+        .task-checkbox-container { position: relative; display: flex; align-items: center; justify-content: center; min-width: 20px; }
+        .task-checkbox, .subtask-checkbox { appearance: none; width: 20px; height: 20px; border-radius: 6px; border: 2px solid #cbd5e1; cursor: pointer; transition: all 0.2s ease; }
+        html.dark .task-checkbox, html.dark .subtask-checkbox { border-color: #475569; }
+        .task-checkbox:hover, .subtask-checkbox:hover { border-color: var(--primary-light); }
+        html.dark .task-checkbox:hover, html.dark .subtask-checkbox:hover { border-color: var(--primary-dark); }
+        .task-checkbox:checked, .subtask-checkbox:checked { background-color: var(--primary-light); border-color: var(--primary-light); }
+        html.dark .task-checkbox:checked, html.dark .subtask-checkbox:checked { background-color: var(--primary-dark); border-color: var(--primary-dark); }
+        .checkmark { position: absolute; width: 10px; height: 10px; stroke: white; stroke-width: 2; stroke-dasharray: 16; stroke-dashoffset: 16; transition: stroke-dashoffset 0.3s ease-in-out; pointer-events: none; }
+        .task-checkbox:checked ~ .checkmark, .subtask-checkbox:checked ~ .checkmark { stroke-dashoffset: 0; }
+        .task-checkbox:checked + .task-content .task-title,
+        .subtask-checkbox:checked + span { text-decoration: line-through; color: var(--muted-light); }
+        html.dark .task-checkbox:checked + .task-content .task-title,
+        html.dark .subtask-checkbox:checked + span { color: var(--muted-dark); }
+        
+        /* Modal Styles */
+        .modal-container { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s; }
+        .modal-hidden { opacity: 0; pointer-events: none; }
+        .modal-hidden .modal-content { opacity: 0; transform: translateY(20px) scale(0.95); }
+        .transition-all { transition: all 0.2s ease-in-out; }
+
+        /* Notification Toast */
+        #notification-toast {
+            transform: translateY(-100%);
+            transition: transform 0.5s ease-in-out;
+        }
+        #notification-toast.show {
+            transform: translateY(0);
+        }
+        
+        /* Tabs */
+        .tab-button {
+            @apply px-4 py-2 font-semibold text-sm rounded-md transition-colors;
+        }
+        .tab-button.active {
+            @apply bg-sky-500 text-white shadow;
+        }
+        .tab-button:not(.active) {
+            @apply text-slate-500 hover:bg-slate-200 dark:text-slate-400 dark:hover:bg-slate-700;
+        }
+
+        /* Custom Calendar Styles */
+        .vanilla-calendar {
+            --v-cal-bg-color: transparent;
+            --v-cal-border-radius: 0.75rem;
+            --v-cal-border: 1px solid var(--card-border-light);
+            --v-cal-text-color: var(--foreground-light);
+            --v-cal-arrow-color: var(--muted-light);
+            --v-cal-day-bg-color-hover: #f1f5f9;
+            --v-cal-day-text-color-today: var(--primary-light);
+            --v-cal-day-font-weight-today: 700;
+            --v-cal-day-text-color-selected: white;
+            --v-cal-day-bg-color-selected: var(--primary-light);
+            --v-cal-week-text-color: var(--muted-light);
+            --v-cal-date-color: var(--foreground-light);
+            --v-cal-date-color-selected: white;
+            --v-cal-date-bg-color-selected: var(--primary-light);
+            --v-cal-date-bg-color-hover: #f1f5f9;
+        }
+        html.dark .vanilla-calendar {
+            --v-cal-border: 1px solid var(--card-border-dark);
+            --v-cal-text-color: var(--foreground-dark);
+            --v-cal-arrow-color: var(--muted-dark);
+            --v-cal-day-bg-color-hover: #334155;
+            --v-cal-day-text-color-today: var(--primary-dark);
+            --v-cal-day-text-color-selected: black;
+            --v-cal-day-bg-color-selected: var(--primary-dark);
+            --v-cal-week-text-color: var(--muted-dark);
+            --v-cal-date-color: var(--foreground-dark);
+            --v-cal-date-color-selected: black;
+            --v-cal-date-bg-color-selected: var(--primary-dark);
+            --v-cal-date-bg-color-hover: #334155;
+        }
+        .vanilla-calendar-day__week-day { font-size: 0.8em; }
+        .vanilla-calendar-events {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+        }
+        .vanilla-calendar-event-dot {
+            display: block;
+            width: 100%;
+            height: 5px;
+            border-radius: 2px;
+        }
+        #mobile-nav {
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Screen: Initial Admin Setup -->
+    <div id="setup-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-100 dark:bg-slate-900 hidden">
+        <div class="card w-full max-w-sm p-8 rounded-xl shadow-lg text-center">
+            <h1 class="text-3xl font-bold mb-2 text-sky-600 dark:text-sky-400">Welcome!</h1>
+            <p class="text-muted mb-8">Let's create the first Administrator account.</p>
+            <form id="create-admin-form" class="space-y-4 text-left">
+                <div>
+                    <label for="admin-name" class="block text-sm font-medium">Full Name</label>
+                    <input type="text" id="admin-name" required class="input-field">
+                </div>
+                <div>
+                    <label for="admin-team" class="block text-sm font-medium">Team</label>
+                    <select id="admin-team" required class="input-field">
+                        <option>Management</option><option>Security</option><option>Hospitality</option><option>Maintenance</option><option>Retail</option><option>Operations</option>
+                    </select>
+                </div>
+                 <div>
+                    <label for="admin-login-id" class="block text-sm font-medium">Login ID</label>
+                    <input type="text" id="admin-login-id" required class="input-field">
+                </div>
+                <div>
+                    <label for="admin-password" class="block text-sm font-medium">Password</label>
+                    <input type="password" id="admin-password" required class="input-field">
+                </div>
+                <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-lg">Create Admin Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Screen: User Login -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-100 dark:bg-slate-900 hidden">
+        <div class="card w-full max-w-sm p-8 rounded-xl shadow-lg text-center">
+            <h1 class="text-3xl font-bold mb-2 text-sky-600 dark:text-sky-400">The Piece Hall Connect</h1>
+            <p class="text-muted mb-8">Please sign in to continue</p>
+            <form id="login-form" class="space-y-4 text-left">
+                <div>
+                    <label for="login-id" class="block text-sm font-medium">Login ID</label>
+                    <input type="text" id="login-id" required class="input-field">
+                </div>
+                <div>
+                    <label for="login-password" class="block text-sm font-medium">Password</label>
+                    <input type="password" id="login-password" required class="input-field">
+                </div>
+                <p id="login-error" class="text-red-500 text-sm h-4"></p>
+                <button type="submit" class="w-full btn-primary py-2.5 px-4 rounded-lg">Sign In</button>
+            </form>
+            <div class="mt-6 text-center">
+                <button id="reset-app-btn" class="text-sm text-slate-500 hover:text-red-500 hover:underline">Forgot credentials? Reset application</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen: Loading Indicator -->
+    <div id="loading-spinner" class="fixed inset-0 flex items-center justify-center bg-slate-100 dark:bg-slate-900 z-[60]">
+       <div class="text-center">
+            <svg class="animate-spin h-10 w-10 text-sky-500 dark:text-sky-400 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-4 text-lg font-semibold text-slate-700 dark:text-slate-200">Connecting to The Piece Hall Connect...</p>
+       </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" class="opacity-0 transition-opacity duration-500 flex hidden">
+        <!-- Desktop Sidebar -->
+        <aside id="sidebar" class="hidden md:flex flex-col w-64 bg-white dark:bg-slate-800/50 border-r border-slate-200 dark:border-slate-800 p-4">
+            <h1 class="text-2xl font-bold text-sky-600 dark:text-sky-400 px-2 mb-8">PH Connect</h1>
+            <nav id="desktop-nav" class="flex flex-col space-y-2"></nav>
+            <div class="mt-auto">
+                <div id="desktop-user-status" class="p-2"></div>
+                <button data-view="help" class="sidebar-nav-item w-full flex items-center space-x-3 p-3 rounded-lg">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.79 4 4 0 1.982-1.79 4-4 4-1.742 0-3.223-.835-3.772-2M12 18v.01" /></svg>
+                    <span>Help / Guide</span>
+                </button>
+                <button id="theme-toggle-desktop" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 transition-all"></button>
+                <button id="logout-btn" class="w-full flex items-center space-x-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                    <span class="font-semibold">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col h-screen">
+            <!-- Mobile Header -->
+            <header class="flex md:hidden justify-between items-center p-4 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-20">
+                <div>
+                    <h1 class="text-xl font-bold text-sky-600 dark:text-sky-400">PH Connect</h1>
+                    <p id="welcome-message" class="text-sm text-muted"></p>
+                </div>
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div id="user-status-indicator" class="text-sm font-medium flex items-center space-x-2"></div>
+                    <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"></button>
+                </div>
+            </header>
+            
+            <!-- Main Content Area -->
+            <main id="app-content" class="hidden flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 pb-32 md:pb-8">
+                <div id="view-container"></div>
+            </main>
+
+            <!-- Clocked Out View -->
+            <div id="clocked-out-view" class="hidden flex-1 items-center justify-center p-4">
+                <div class="text-center card p-8 rounded-lg max-w-md mx-auto">
+                   <h2 class="text-2xl font-bold mb-2">You are Clocked Out</h2>
+                   <p class="text-muted">Your tasks and announcements will appear here once you clock in on Rotacloud.</p>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav id="mobile-nav" class="md:hidden fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-t border-slate-200 dark:border-slate-800 grid p-1 gap-1 z-20"></nav>
+        </div>
+    </div>
+
+    <!-- Floating Action Buttons -->
+    <div id="fab-container" class="hidden fixed bottom-24 right-6 md:bottom-8 md:right-8 z-30 space-y-4">
+        <button id="fab-add-announcement" class="w-14 h-14 rounded-full bg-amber-500 text-white shadow-lg flex items-center justify-center hover:bg-amber-600 transition-all transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+        </button>
+        <button id="fab-add-task" class="w-14 h-14 rounded-full btn-primary shadow-lg flex items-center justify-center transition-all transform hover:scale-110">
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+        </button>
+        <button id="fab-add-internal-event" class="w-14 h-14 rounded-full bg-indigo-500 text-white shadow-lg flex items-center justify-center hover:bg-indigo-600 transition-all transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        </button>
+    </div>
+    
+    <!-- Modal Placeholders -->
+    <div id="modal-root"></div>
+    
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="fixed top-5 right-5 w-80 card p-4 rounded-lg shadow-lg z-[100] hidden">
+        <div class="flex items-start space-x-3">
+            <div class="bg-sky-100 dark:bg-sky-900 p-2 rounded-full">
+                <svg class="w-6 h-6 text-sky-500 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+            </div>
+            <div>
+                <h4 id="notification-title" class="font-bold text-slate-800 dark:text-slate-100">New Task Assigned</h4>
+                <p id="notification-text" class="text-sm text-muted"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.js" defer></script>
+
+    <script type="module">
+        // © 2025 Lee Smith. All Rights Reserved.
+        // This software is provided "as is" under the MIT License.
+        // The MIT License is a permissive free software license originating at the Massachusetts Institute of Technology (MIT).
+        // It permits reuse within proprietary software provided that all copies of the software include a copy of the MIT License terms and the copyright notice.
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, getDocs, serverTimestamp, query, orderBy, writeBatch, setDoc, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const $ = (selector) => document.querySelector(selector);
+            const loadingSpinner = $('#loading-spinner');
+            
+            const showError = (message) => {
+                loadingSpinner.innerHTML = `<div class="text-center max-w-sm"><h3 class="text-xl font-bold text-red-500 mb-2">Application Error</h3><p class="text-red-500">${message}</p></div>`;
+            };
+
+            // --- Robust Firebase Setup ---
+            let app, db, storage, auth, functions;
+            try {
+                // Your web app's Firebase configuration - REPLACE WITH YOUR ACTUAL VALUES
+                const firebaseConfig = {
+                    apiKey: "AIzaSyD3_i0U0RGB0wfX0FMYzouEKu-bUdzRo9k",
+                    authDomain: "operations-cc845.firebaseapp.com",
+                    projectId: "operations-cc845",
+                    storageBucket: "operations-cc845.appspot.com", // Corrected field name
+                    messagingSenderId: "1055237336061",
+                    appId: "1:1055237336061:web:09bcba161b759c3fc34794"
+                };
+
+                if (!firebaseConfig.apiKey) {
+                    throw new Error("Firebase configuration is missing or invalid. The application cannot start.");
+                }
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                storage = getStorage(app);
+                auth = getAuth(app);
+                functions = getFunctions(app);
+            } catch (e) {
+                console.error(e);
+                showError(e.message);
+                return;
+            }
+
+            // --- Global State & Firebase Refs ---
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Use default if __app_id is not injected
+            const usersRef = collection(db, `/artifacts/${appId}/public/data/users`);
+            const tasksRef = collection(db, `/artifacts/${appId}/public/data/tasks`);
+            const announcementsRef = collection(db, `/artifacts/${appId}/public/data/announcements`);
+            const filesRef = collection(db, `/artifacts/${appId}/public/data/files`);
+            const internalEventsRef = collection(db, `/artifacts/${appId}/public/data/internalEvents`);
+            const incidentsRef = collection(db, `/artifacts/${appId}/public/data/incidents`);
+            const handoversRef = collection(db, `/artifacts/${appId}/public/data/handovers`);
+            const specialEventsRef = collection(db, `/artifacts/${appId}/public/data/specialEvents`);
+            const settingsDocRef = doc(db, `/artifacts/${appId}/public/data/settings/appSettings`);
+            const getClockInStatus = httpsCallable(functions, 'getClockInStatus');
+
+            let state = {
+                currentUser: null, appReady: false, isClockedIn: false,
+                currentView: 'today', theme: 'system', eventView: 'internal',
+                users: [], tasks: [], announcements: [], files: [], internalEvents: [], incidents: [], handovers: [], specialEvents: [], settings: {},
+                unsubscribeTasks: null, unsubscribeAnnouncements: null, unsubscribeUsers: null, unsubscribeSettings: null, unsubscribeFiles: null, unsubscribeInternalEvents: null, unsubscribeIncidents: null, unsubscribeHandovers: null, unsubscribeSpecialEvents: null,
+                notificationsEnabled: false,
+                calendar: null
+            };
+            
+            // --- DOM Element Selectors ---
+            const setupScreen = $('#setup-screen'), createAdminForm = $('#create-admin-form');
+            const loginScreen = $('#login-screen'), loginForm = $('#login-form');
+            const appContainer = $('#app-container');
+            const welcomeMessage = $('#welcome-message'), logoutBtn = $('#logout-btn');
+            const viewContainer = $('#view-container'), fabContainer = $('#fab-container');
+            const desktopNav = $('#desktop-nav'), mobileNav = $('#mobile-nav');
+            const modalRoot = $('#modal-root');
+            
+            // --- Notification Management ---
+            const showNotificationToast = (title, text, type = 'info') => {
+                const toast = $('#notification-toast');
+                $('#notification-title').textContent = title;
+                $('#notification-text').textContent = text;
+
+                const iconContainer = toast.querySelector('div:first-child');
+                iconContainer.className = 'p-2 rounded-full'; // Reset classes
+                const svg = iconContainer.querySelector('svg');
+
+                if (type === 'success') {
+                    iconContainer.classList.add('bg-green-100', 'dark:bg-green-900');
+                    svg.classList.add('text-green-500', 'dark:text-green-400');
+                } else {
+                    iconContainer.classList.add('bg-sky-100', 'dark:bg-sky-900');
+                    svg.classList.add('text-sky-500', 'dark:text-sky-400');
+                }
+
+                toast.classList.remove('hidden');
+                setTimeout(() => toast.classList.add('show'), 10); // slide in
+                setTimeout(() => {
+                    toast.classList.remove('show'); // slide out
+                    setTimeout(() => toast.classList.add('hidden'), 5000);
+                }, 5000);
+            };
+
+            // --- Modal Management ---
+            const showModal = (id, content, size = 'max-w-lg') => {
+                const modal = document.createElement('div');
+                modal.id = id;
+                modal.className = 'modal-container fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50';
+                modal.innerHTML = `<div class="modal-content card w-full ${size} p-6 rounded-xl shadow-lg">${content}</div>`;
+                modalRoot.appendChild(modal);
+                setTimeout(() => modal.classList.remove('modal-hidden'), 10);
+            };
+
+            const hideModal = (id) => {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    modal.classList.add('modal-hidden');
+                    setTimeout(() => modal.remove(), 300);
+                }
+            };
+            
+            const createConfirmationModal = (title, message, options = {}) => {
+                const { confirmText = 'Confirm', confirmClass = 'btn-danger', includeCheckbox = false, checkboxLabel = '' } = options;
+                return new Promise((resolve) => {
+                    const modalId = 'confirmation-modal';
+                    const checkboxHtml = includeCheckbox ? `
+                        <div class="mt-4 mb-2">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" id="confirm-checkbox" class="rounded border-slate-300 dark:border-slate-600 dark:bg-slate-900 text-sky-500 focus:ring-sky-500">
+                                <span class="text-sm text-muted">${checkboxLabel}</span>
+                            </label>
+                        </div>
+                    ` : '';
+                    const content = `
+                            <h3 class="text-xl font-bold mb-2">${title}</h3>
+                            <p class="text-muted mb-6">${message}</p>
+                            ${checkboxHtml}
+                            <div class="flex justify-end space-x-3">
+                                <button class="btn-secondary" data-action="cancel">Cancel</button>
+                                <button class="${confirmClass}" data-action="confirm">${confirmText}</button>
+                            </div>
+                    `;
+                    showModal(modalId, content, 'max-w-md');
+
+                    $(`#${modalId}`).addEventListener('click', (e) => {
+                        const action = e.target.dataset.action;
+                        if (action === 'confirm' || action === 'cancel') {
+                             const checkbox = document.getElementById('confirm-checkbox');
+                             const result = { confirmed: action === 'confirm', isChecked: checkbox ? checkbox.checked : false };
+                             resolve(result);
+                             hideModal(modalId);
+                        }
+                    });
+                });
+            };
+
+            // --- Navigation & View Rendering ---
+            const renderNav = () => {
+                const navItems = [
+                    { view: 'today', label: 'Today', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`},
+                    { view: 'specialEvents', label: 'Sp. Events', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>`},
+                    { view: 'events', label: 'Events', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`},
+                    { view: 'incidents', label: 'Incidents', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`},
+                    { view: 'handovers', label: 'Handovers', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>`, managerOnly: true},
+                    { view: 'announcements', label: 'Announcements', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>`},
+                    { view: 'files', label: 'Files', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>`},
+                    { view: 'admin', label: 'Admin', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 21a6 6 0 006-6v-1a3 3 0 00-3-3H6a3 3 0 00-3 3v1a6 6 0 006 6z" /></svg>`, adminOnly: true },
+                    { view: 'settings', label: 'Settings', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`, adminOnly: true, opsManagerOnly: true },
+                    { view: 'help', label: 'Help', icon: `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.79 4 4 0 1.982-1.79 4-4 4-1.742 0-3.223-.835-3.772-2M12 18v.01" /></svg>`},
+                ];
+                
+                const generateNavItem = (item, isMobile = false) => {
+                    if (item.managerOnly && !['Ops Manager', 'Duty Manager', 'Team Leader'].includes(state.currentUser.role)) return '';
+                    if (item.adminOnly && !['Ops Manager', 'Duty Manager'].includes(state.currentUser.role)) return '';
+                    if (item.opsManagerOnly && state.currentUser.role !== 'Ops Manager') return '';
+
+                    const isActive = state.currentView === item.view;
+                    const baseClasses = 'sidebar-nav-item w-full transition-all duration-200';
+                    const desktopClasses = `flex items-center space-x-3 p-3 rounded-lg ${isActive ? 'active' : ''}`;
+                    const mobileClasses = `flex flex-col items-center justify-center text-center p-2 rounded-lg ${isActive ? 'active' : ''}`;
+                    if(isMobile) return `<button data-view="${item.view}" class="${baseClasses} ${mobileClasses}">${item.icon}<span class="text-xs font-medium mt-1">${item.label}</span></button>`;
+                    return `<button data-view="${item.view}" class="${baseClasses} ${desktopClasses}">${item.icon}<span>${item.label}</span></button>`;
+                }
+
+                desktopNav.innerHTML = navItems.map(item => generateNavItem(item, false)).join('');
+                mobileNav.innerHTML = navItems.map(item => generateNavItem(item, true)).join('');
+            };
+            
+            // --- View-specific Render Functions ---
+            const renderEmptyState = (message, buttonHtml = '') => {
+                 return `<div class="text-center card p-8 rounded-lg max-w-md mx-auto mt-8 flex flex-col items-center">
+                    <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+                    <p class="text-muted">${message}</p>
+                    ${buttonHtml}
+                 </div>`;
+            }
+
+            const renderTasks = () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                const today = new Date().toISOString().split('T')[0];
+                
+                let relevantTasks = state.tasks
+                    .filter(task => state.currentView === 'today' ? task.date === today : task.date > today);
+
+                if (!isManager) {
+                    relevantTasks = relevantTasks.filter(task => task.team === 'All' || task.team === state.currentUser.team);
+                }
+
+                relevantTasks.sort((a,b) => new Date(a.date) - new Date(b.date));
+
+                const timeBlockOrder = ['Pre-Opening', 'Morning', 'Afternoon', 'Evening', 'Closing'];
+                const groupedTasks = relevantTasks.reduce((acc, task) => {
+                    const group = task.timeBlock || 'General'; // Use timeBlock (HH:mm) if available, else General
+                    if (!acc[group]) acc[group] = [];
+                    acc[group].push(task);
+                    return acc;
+                }, {});
+
+                let content = '';
+                if (relevantTasks.length === 0) {
+                     const addBtn = isManager ? `<button id="fab-add-task-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Add a Task</button>` : '';
+                    content = renderEmptyState(`No ${state.currentView} tasks scheduled for your team.`, addBtn);
+                } else {
+                    // Sort keys: time blocks first, then specific times
+                    const sortedKeys = Object.keys(groupedTasks).sort((a, b) => {
+                         const aIsTimeBlock = timeBlockOrder.includes(a);
+                         const bIsTimeBlock = timeBlockOrder.includes(b);
+                         if (aIsTimeBlock && !bIsTimeBlock) return -1;
+                         if (!aIsTimeBlock && bIsTimeBlock) return 1;
+                         if (aIsTimeBlock && bIsTimeBlock) return timeBlockOrder.indexOf(a) - timeBlockOrder.indexOf(b);
+                         // Both are specific times, sort chronologically
+                         return a.localeCompare(b);
+                    });
+
+                    content = sortedKeys.map(block => {
+                        const tasksHtml = groupedTasks[block].map(task => `
+                            <div class="flex items-start space-x-4 p-4 card rounded-lg">
+                                <label class="task-checkbox-container mt-1">
+                                    <input type="checkbox" data-task-id="${task.id}" class="task-checkbox" ${task.done ? 'checked' : ''}>
+                                    <svg class="checkmark" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 6L4.5 8.5L10 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </label>
+                                <div class="flex-1 task-content">
+                                    <div class="flex items-center space-x-2">
+                                        ${task.recurring !== 'none' ? `<svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M4 4l16 16" /></svg>` : ''}
+                                        <p class="font-semibold task-title text-slate-800 dark:text-slate-100">${task.title}</p>
+                                    </div>
+                                    <p class="text-sm text-muted">${task.team}</p>
+                                </div>
+                                <div>
+                                     <button data-task-id="${task.id}" class="view-task-details-btn p-1 rounded-md text-slate-400 hover:text-sky-500 hover:bg-sky-100 dark:hover:bg-sky-900/50 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg></button>
+                                     ${isManager ? `<button data-task-id="${task.id}" class="delete-task-btn p-1 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>` : ''}
+                                </div>
+                            </div>
+                        `).join('');
+                        return `<div class="mb-8"><h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">${block}</h3><div class="space-y-3">${tasksHtml}</div></div>`;
+                    }).join('');
+                }
+                viewContainer.innerHTML = `<h2 class="text-3xl font-bold mb-8 text-slate-800 dark:text-slate-100">${state.currentView === 'today' ? "Today's Tasks" : "Upcoming Tasks"}</h2><div>${content}</div>`;
+            };
+            
+            const renderSpecialEventsView = () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                 const header = `
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Special Event Checklists</h2>
+                        ${isManager ? `<button id="show-add-special-event-modal" class="btn-primary py-2 px-4 rounded-lg flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2-2H5a2 2 0 01-2-2z" /></svg>
+                            <span>Create New Checklist</span>
+                        </button>` : ''}
+                    </div>
+                `;
+
+                let content;
+                if (state.specialEvents.length === 0) {
+                     const addBtn = isManager ? `<button id="show-add-special-event-modal-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Create First Checklist</button>` : '';
+                    content = renderEmptyState('No special event checklists have been created yet.', addBtn);
+                } else {
+                     content = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${state.specialEvents.map(event => {
+                        const totalItems = event.checklist.length;
+                        const completedItems = event.checklist.filter(item => item.done).length;
+                        const progress = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+                        return `
+                        <div class="card rounded-lg p-5 flex flex-col">
+                            <div>
+                                <p class="text-sm font-semibold text-sky-600 dark:text-sky-400">${event.eventName}</p>
+                                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${event.title}</h3>
+                                <p class="text-sm text-muted">Assigned to: ${event.team}</p>
+                            </div>
+                            <div class="mt-4 flex-grow">
+                                <div class="flex justify-between items-center text-sm mb-1">
+                                    <span class="font-semibold">Progress</span>
+                                    <span>${completedItems} / ${totalItems}</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2.5 dark:bg-slate-700">
+                                    <div class="bg-sky-500 h-2.5 rounded-full" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex items-center justify-between">
+                                <button data-event-id="${event.id}" class="view-special-event-btn btn-secondary text-sm px-3 py-1.5">View Checklist</button>
+                                ${isManager ? `<button data-event-id="${event.id}" class="delete-special-event-btn p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </button>` : ''}
+                            </div>
+                        </div>
+                        `
+                     }).join('')}</div>`;
+                }
+
+                viewContainer.innerHTML = header + content;
+            };
+
+            const renderAnnouncements = () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                let content;
+                if(state.announcements.length === 0) {
+                     const addBtn = isManager ? `<button id="fab-add-announcement-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Post an Announcement</button>` : '';
+                    content = renderEmptyState('No announcements yet.', addBtn);
+                } else {
+                    content = `<div class="space-y-4">${state.announcements.map(ann => {
+                        const date = ann.createdAt?.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                        return `
+                        <div class="card p-5 rounded-lg">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${ann.title}</h3>
+                                    <p class="text-sm text-muted mb-3">Posted by ${ann.authorName} on ${date}</p>
+                                </div>
+                                ${isManager ? `<button data-announcement-id="${ann.id}" class="delete-announcement-btn p-1 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>` : ''}
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${ann.content}</p>
+                        </div>
+                    `}).join('')}</div>`;
+                }
+                viewContainer.innerHTML = `<h2 class="text-3xl font-bold mb-8 text-slate-800 dark:text-slate-100">Announcements</h2>${content}`;
+            };
+            
+            const renderEventsView = async () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+
+                const renderInternalEvents = () => {
+                    let content;
+                     if(state.internalEvents.length === 0) {
+                        const addBtn = isManager ? `<button id="show-add-internal-event-modal-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Post an Internal Event</button>` : '';
+                        content = renderEmptyState('No internal events posted.', addBtn);
+                    } else {
+                        content = `<div class="space-y-4">${state.internalEvents.map(event => {
+                            const date = event.createdAt?.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'long' });
+                            return `
+                            <div class="card p-5 rounded-lg">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${event.title}</h3>
+                                        <p class="text-sm text-muted mb-3">Posted by ${event.authorName} on ${date}</p>
+                                    </div>
+                                    ${isManager ? `<button data-event-id="${event.id}" class="delete-internal-event-btn p-1 rounded-md text-slate-400 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>` : ''}
+                                </div>
+                                <p class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${event.details}</p>
+                            </div>
+                        `}).join('')}</div>`;
+                    }
+                    $('#event-content-container').innerHTML = content;
+                }
+
+                const renderUpcomingEvents = async () => {
+                     $('#event-content-container').innerHTML = `<div class="text-center p-8"><svg class="animate-spin h-8 w-8 text-sky-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><p class="mt-4 text-muted">Fetching live events...</p></div>`;
+                    
+                    const ticketmasterApiKey = state.settings.apiKeys?.['Ops Manager'];
+                    if (!ticketmasterApiKey) {
+                        $('#event-content-container').innerHTML = renderEmptyState('Ticketmaster API key not configured in Settings.');
+                        return;
+                    }
+
+                    try {
+                        const PIECE_HALL_VENUE_ID = 'KovZ91776V7';
+                        const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?venueId=${PIECE_HALL_VENUE_ID}&apikey=${ticketmasterApiKey}&sort=date,asc`);
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.json();
+
+                        if (data._embedded && data._embedded.events.length > 0) {
+                           const eventsHtml = data._embedded.events.map(event => {
+                                const eventDate = new Date(event.dates.start.dateTime);
+                                const date = eventDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+                                const time = eventDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
+                                const imageUrl = event.images.find(img => img.ratio === '3_2')?.url || event.images[0].url;
+                                return `
+                                <a href="${event.url}" target="_blank" rel="noopener noreferrer" class="block card rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                                     <img src="${imageUrl}" alt="${event.name}" class="w-full h-40 object-cover">
+                                     <div class="p-4">
+                                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">${event.name}</h3>
+                                        <p class="text-sky-600 dark:text-sky-400 font-semibold">${date} at ${time}</p>
+                                     </div>
+                                </a>
+                                `
+                           }).join('');
+                           $('#event-content-container').innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">${eventsHtml}</div>`;
+                        } else {
+                            $('#event-content-container').innerHTML = renderEmptyState('No upcoming public events found.');
+                        }
+                    } catch (error) {
+                        console.error('Error fetching Ticketmaster events:', error);
+                        $('#event-content-container').innerHTML = renderEmptyState('Could not load upcoming events.');
+                    }
+                }
+                
+                viewContainer.innerHTML = `
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Events</h2>
+                        <div id="event-tabs" class="p-1 bg-slate-100 dark:bg-slate-800 rounded-lg flex space-x-1">
+                            <button data-view="internal" class="tab-button active">Internal</button>
+                            <button data-view="upcoming" class="tab-button">Upcoming</button>
+                        </div>
+                    </div>
+                    <div id="event-content-container"></div>
+                `;
+
+                if (state.eventView === 'internal') {
+                    renderInternalEvents();
+                } else {
+                    renderUpcomingEvents();
+                }
+            };
+            
+            const renderAdminView = () => {
+                viewContainer.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-6 text-slate-800 dark:text-slate-100">Admin Dashboard</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div id="admin-calendar-container" class="lg:col-span-2 card p-4 rounded-xl">
+                            <div id="admin-calendar"></div>
+                        </div>
+                        <div id="admin-sidebar" class="space-y-6">
+                             <div>
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">User Management</h3>
+                                    <button id="show-create-user-modal" class="btn-primary py-1 px-3 rounded-lg text-sm">Add User</button>
+                                </div>
+                                <div id="user-list-container" class="space-y-3 max-h-96 overflow-y-auto"></div>
+                             </div>
+                              <div>
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-4">Notifications</h3>
+                                <div id="notification-settings-container" class="card p-6 rounded-lg"></div>
+                             </div>
+                        </div>
+                    </div>
+                `;
+                
+                const isOpsManager = state.currentUser.role === 'Ops Manager';
+
+                const notificationStatus = state.notificationsEnabled ? 
+                    `<p class="text-green-600 dark:text-green-400">Notifications are enabled on this device.</p>` :
+                    `<p class="text-muted">Enable notifications to get alerts for new tasks.</p>`;
+                $('#notification-settings-container').innerHTML = `${notificationStatus}
+                    ${!state.notificationsEnabled ? `<button id="enable-notifications-btn" class="btn-primary py-2 px-4 rounded-lg mt-4">Enable</button>` : ''}`;
+                
+                $('#user-list-container').innerHTML = state.users
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(user => `
+                    <div class="flex items-center justify-between p-3 card rounded-lg">
+                        <div>
+                            <p class="font-semibold text-slate-800 dark:text-slate-100">${user.name} ${user.id === state.currentUser.id ? '<span class="text-xs font-bold text-sky-500">(You)</span>' : ''}</p>
+                            <p class="text-sm text-muted">${user.loginId} | ${user.role}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            ${isOpsManager && user.id !== state.currentUser.id ? `
+                            <button data-user-id="${user.id}" class="edit-user-btn p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                <svg class="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L14.732 3.732z" /></svg>
+                            </button>
+                            <button data-user-id="${user.id}" data-user-name="${user.name}" class="delete-user-btn p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500 transition-colors">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+                // Initialize Calendar
+                const teamColors = {
+                    'Management': '#f59e0b', 'Security': '#ef4444', 'Hospitality': '#10b981', 
+                    'Maintenance': '#3b82f6', 'Retail': '#8b5cf6', 'Operations': '#64748b', 'All': '#0ea5e9'
+                };
+                
+                const events = state.tasks.map(task => ({
+                    title: task.title,
+                    start: task.date,
+                    description: `For ${task.team} team.`,
+                    color: teamColors[task.team] || '#64748b'
+                }));
+
+                const calendarOptions = {
+                    type: 'default',
+                    actions: {
+                        clickDay(e, self) {
+                            showAddTaskModal(self.selectedDates[0]);
+                        }
+                    },
+                    popups: {},
+                    CSSClasses: {
+                        event: 'vanilla-calendar-event-dot',
+                    },
+                    settings: {
+                        visibility: { theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light' },
+                        iso8601: true,
+                        dates: { today: new Date() },
+                        selected: { dates: [new Date().toISOString().substring(0, 10)] }
+                    },
+                    events: [],
+                };
+
+                // Add popups for each event
+                events.forEach(event => {
+                    const dateStr = event.start;
+                    if (!calendarOptions.popups[dateStr]) calendarOptions.popups[dateStr] = { html: '' };
+                    calendarOptions.popups[dateStr].html += `<div class="p-1"><div class="flex items-center space-x-2"><span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color:${event.color}"></span><span class="font-semibold text-xs">${event.title}</span></div></div>`;
+                });
+                
+                if (state.calendar) state.calendar.destroy();
+
+                state.calendar = new VanillaCalendar('#admin-calendar', calendarOptions);
+                state.calendar.init();
+                state.calendar.update({ events: events }); 
+            };
+            
+            const renderIncidentsView = () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                
+                const header = `
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Incident Log</h2>
+                        <button id="show-report-incident-modal" class="btn-primary py-2 px-4 rounded-lg flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                            <span>Report New Incident</span>
+                        </button>
+                    </div>
+                `;
+
+                let content;
+                if (state.incidents.length === 0) {
+                     content = renderEmptyState('No incidents have been reported yet.', `<button id="show-report-incident-modal-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Report First Incident</button>`);
+                } else {
+                     const statusColors = {
+                        'Open': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+                        'Under Review': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+                        'Resolved': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                    };
+                    content = `<div class="space-y-4">${state.incidents.map(incident => {
+                        const date = incident.createdAt?.toDate().toLocaleString('en-GB', { day: 'numeric', month: 'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                        return `
+                        <div class="card rounded-lg p-5">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center gap-x-3">
+                                        <span class="text-lg font-bold text-slate-800 dark:text-slate-100">${incident.title}</span>
+                                        <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${statusColors[incident.status] || ''}">${incident.status}</span>
+                                    </div>
+                                    <p class="text-sm text-muted">Reported by ${incident.reporterName} on ${date} at ${incident.location}</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                     ${isManager ? `
+                                        <select data-incident-id="${incident.id}" class="update-incident-status bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-sm font-medium py-1 pl-2 pr-8 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                            <option ${incident.status === 'Open' ? 'selected' : ''}>Open</option>
+                                            <option ${incident.status === 'Under Review' ? 'selected' : ''}>Under Review</option>
+                                            <option ${incident.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+                                        </select>
+                                        <button data-incident-id="${incident.id}" class="delete-incident-btn p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        </button>
+                                     ` : ''}
+                                </div>
+                            </div>
+                            <p class="mt-3 text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${incident.details}</p>
+                            ${incident.photoURL ? `<a href="${incident.photoURL}" target="_blank" class="mt-3 inline-block"><img src="${incident.photoURL}" class="max-h-64 rounded-lg"></a>` : ''}
+                        </div>
+                        `
+                    }).join('')}</div>`;
+                }
+                viewContainer.innerHTML = header + content;
+            };
+            
+            const renderHandoversView = () => {
+                const isManager = ['Ops Manager', 'Duty Manager', 'Team Leader'].includes(state.currentUser.role);
+                
+                const header = `
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Shift Handovers</h2>
+                        ${isManager ? `<button id="show-add-handover-modal" class="btn-primary py-2 px-4 rounded-lg flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 3h.01M15.172 21H8.828a2 2 0 01-1.414-.586l-4.414-4.414a2 2 0 010-2.828l8.586-8.586a2 2 0 012.828 0l4.414 4.414a2 2 0 010 2.828l-4.172 4.172A2 2 0 0115.172 21z" /></svg>
+                            <span>Create New Handover</span>
+                        </button>` : ''}
+                    </div>
+                `;
+
+                let content;
+                if (state.handovers.length === 0) {
+                     content = renderEmptyState('No handover reports have been filed yet.', `<button id="show-add-handover-modal-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Create First Handover</button>`);
+                } else {
+                    content = `<div class="space-y-6">${state.handovers.map(handover => {
+                        const date = handover.createdAt?.toDate().toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year:'numeric' });
+                        return `
+                        <div class="card rounded-lg p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="font-bold text-lg text-slate-800 dark:text-slate-100">Handover from ${handover.authorName}</p>
+                                    <p class="text-sm text-muted">${date}</p>
+                                </div>
+                                ${isManager ? ` <button data-handover-id="${handover.id}" class="delete-handover-btn p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500 transition-colors">
+                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                        </button>`: ''}
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="font-semibold text-slate-700 dark:text-slate-200">Ongoing Incidents</h4>
+                                    <p class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${handover.ongoingIncidents || 'None noted.'}</p>
+                                </div>
+                                 <div>
+                                    <h4 class="font-semibold text-slate-700 dark:text-slate-200">Outstanding Tasks</h4>
+                                    <p class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${handover.outstandingTasks || 'None noted.'}</p>
+                                </div>
+                                 <div>
+                                    <h4 class="font-semibold text-slate-700 dark:text-slate-200">General Notes</h4>
+                                    <p class="text-slate-600 dark:text-slate-300 whitespace-pre-wrap">${handover.generalNotes || 'None noted.'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        `
+                    }).join('')}</div>`;
+                }
+                viewContainer.innerHTML = header + content;
+            };
+
+            const renderFilesView = () => {
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                let content;
+
+                const header = `
+                    <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                        <h2 class="text-3xl font-bold text-slate-800 dark:text-slate-100">Files</h2>
+                        ${isManager ? `<button id="show-upload-file-modal" class="btn-primary py-2 px-4 rounded-lg flex items-center space-x-2"><svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg><span>Upload File</span></button>` : ''}
+                    </div>
+                `;
+                
+                if (state.files.length === 0) {
+                    const uploadBtn = isManager ? `<button id="show-upload-file-modal-from-empty" class="btn-primary py-2 px-4 rounded-lg mt-6">Upload First File</button>` : '';
+                    content = renderEmptyState('No files have been uploaded yet.', uploadBtn);
+                } else {
+                    content = `<div class="space-y-3">${state.files.map(file => {
+                        const date = file.createdAt?.toDate().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                        return `
+                        <div class="flex items-center justify-between p-4 card rounded-lg">
+                            <div class="flex items-center space-x-4">
+                                <svg class="w-8 h-8 text-sky-500 dark:text-sky-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                <div>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-100">${file.title}</p>
+                                    <p class="text-sm text-muted">Uploaded by ${file.uploaderName} on ${date}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <a href="${file.downloadURL}" target="_blank" rel="noopener noreferrer" class="p-2 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                                    <svg class="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                </a>
+                                ${isManager ? `
+                                <button data-file-id="${file.id}" class="delete-file-btn p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-900/50 text-red-500 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        `
+                    }).join('')}</div>`;
+                }
+                viewContainer.innerHTML = header + content;
+            };
+
+            const renderSettingsView = () => {
+                const roles = ['Ops Manager', 'Duty Manager', 'Team Leader', 'Team Member'];
+                const apiKeys = state.settings.apiKeys || {};
+
+                viewContainer.innerHTML = `
+                    <h2 class="text-3xl font-bold mb-8 text-slate-800 dark:text-slate-100">Settings</h2>
+                    <form id="settings-form" class="space-y-12">
+                        <!-- General Info Section -->
+                        <div class="card p-6 rounded-lg">
+                            <h3 class="text-xl font-bold mb-4">General Information</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="setting-business-name" class="block text-sm font-medium">Business Name</label>
+                                    <input type="text" id="setting-business-name" value="${state.settings.businessName || ''}" class="input-field">
+                                </div>
+                                <div>
+                                    <label for="setting-contact-email" class="block text-sm font-medium">Contact Email</label>
+                                    <input type="email" id="setting-contact-email" value="${state.settings.contactEmail || ''}" class="input-field">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- API Keys Section -->
+                        <div class="card p-6 rounded-lg">
+                             <h3 class="text-xl font-bold mb-4">Role-Based API Keys</h3>
+                             <p class="text-muted mb-6">Enter API keys for third-party integrations for each role. (e.g., Ticketmaster)</p>
+                             <div class="space-y-4">
+                                ${roles.map(role => `
+                                    <div>
+                                        <label for="api-key-${role.replace(/\s+/g, '-')}" class="block text-sm font-medium">${role}</label>
+                                        <input type="password" id="api-key-${role.replace(/\s+/g, '-')}" value="${apiKeys[role] || ''}" class="input-field" placeholder="Enter API Key">
+                                    </div>
+                                `).join('')}
+                             </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="btn-primary py-2.5 px-6 rounded-lg">Save Settings</button>
+                        </div>
+                    </form>
+                `;
+            };
+
+            const renderUserGuideView = () => {
+                viewContainer.innerHTML = `
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-3xl font-bold mb-6 text-slate-800 dark:text-slate-100">User Guide</h2>
+                        <div class="space-y-8 text-slate-700 dark:text-slate-300">
+                            
+                            <div class="card p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-slate-100">1. Getting Started</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-semibold text-lg">Initial Setup (First-Time Admin Only)</h4>
+                                        <p>If you are the first person to ever use the application, you will be greeted with a "Welcome!" screen. You must fill out this form to create the first <strong>Administrator</strong> account.</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-lg">Logging In</h4>
+                                        <p>All subsequent users will see the main login screen. Enter the <strong>Login ID</strong> and <strong>Password</strong> assigned to you by an administrator and click "Sign In".</p>
+                                    </div>
+                                    <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg dark:bg-yellow-900/20 dark:border-yellow-800">
+                                        <p><strong class="font-semibold">Forgot Credentials?</strong> If you forget your password, you must contact an Ops Manager to reset it. If no one can log in, use the "Reset application" link on the login screen. <strong class="text-red-600">Warning:</strong> this will permanently delete all data.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-slate-100">2. Features for All Users</h3>
+                                <ul class="list-disc list-inside space-y-4">
+                                    <li><strong class="font-semibold">Today View:</strong> Your personalized home screen showing tasks and announcements relevant to your team.</li>
+                                    <li><strong class="font-semibold">Events:</strong> A two-tab view for internal operational updates and upcoming public events from Ticketmaster.</li>
+                                    <li><strong class="font-semibold">Incidents:</strong> A real-time log of all reported incidents. You can report a new incident, with details and an optional photo, using the button at the top.</li>
+                                    <li><strong class="font-semibold">Announcements:</strong> A feed of important, site-wide announcements from management.</li>
+                                    <li><strong class="font-semibold">Files:</strong> A library of important documents. Click the download icon to save a file.</li>
+                                </ul>
+                            </div>
+
+                             <div class="card p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-slate-100">3. Features for Managers & Team Leaders</h3>
+                                 <ul class="list-disc list-inside space-y-4">
+                                    <li><strong class="font-semibold">Handovers:</strong> A digital logbook for shift transitions. Managers can view past reports and create a new one to inform the incoming team of ongoing issues, outstanding tasks, and general notes.</li>
+                                </ul>
+                            </div>
+
+                            <div class="card p-6 rounded-lg">
+                                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-slate-100">4. Features for Administrators (Ops & Duty Managers)</h3>
+                                 <ul class="list-disc list-inside space-y-4">
+                                    <li><strong class="font-semibold">Admin Dashboard:</strong> Your central control panel with a task calendar and user management tools. You can add, edit, and delete users.</li>
+                                    <li><strong class="font-semibold">Content Management:</strong> You have the ability to delete any task, announcement, incident, handover, or file throughout the app.</li>
+                                    <li><strong class="font-semibold">Incident Status:</strong> In the "Incidents" view, you can change a report's status from "Open" to "Under Review" or "Resolved".</li>
+                                    <li><strong class="font-semibold">Settings (Ops Manager Only):</strong> Configure API keys (like Ticketmaster) and other general app settings.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            };
+
+            const renderView = () => {
+                if (!state.currentUser || !state.appReady) return;
+                
+                renderNav();
+                const views = { today: renderTasks, specialEvents: renderSpecialEventsView, events: renderEventsView, incidents: renderIncidentsView, handovers: renderHandoversView, announcements: renderAnnouncements, files: renderFilesView, admin: renderAdminView, settings: renderSettingsView, help: renderUserGuideView };
+                if (views[state.currentView]) views[state.currentView]();
+                
+                const isManager = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+                fabContainer.classList.toggle('hidden', true); // Initially hide all
+                if (isManager) {
+                     fabContainer.classList.toggle('hidden', !['today', 'upcoming', 'announcements', 'events'].includes(state.currentView));
+                     $('#fab-add-task').classList.toggle('hidden', !['today', 'upcoming'].includes(state.currentView));
+                     $('#fab-add-announcement').classList.toggle('hidden', state.currentView !== 'announcements');
+                     $('#fab-add-internal-event').classList.toggle('hidden', state.currentView !== 'events' || state.eventView !== 'internal');
+                }
+            };
+            
+            // --- Task & Data Logic ---
+             const handleRecurringTaskCompletion = async (task) => {
+                if (task.recurring === 'none' || !task.id) return;
+
+                const newDate = new Date(task.date + 'T12:00:00Z'); // Use UTC noon to avoid timezone issues
+                switch(task.recurring) {
+                    case 'daily': newDate.setUTCDate(newDate.getUTCDate() + 1); break;
+                    case 'weekly': newDate.setUTCDate(newDate.getUTCDate() + 7); break;
+                    case '2weeks': newDate.setUTCDate(newDate.getUTCDate() + 14); break;
+                    case '3weeks': newDate.setUTCDate(newDate.getUTCDate() + 21); break;
+                    case 'monthly': newDate.setUTCMonth(newDate.getUTCMonth() + 1); break;
+                    case 'weekdays':
+                        do { newDate.setUTCDate(newDate.getUTCDate() + 1); }
+                        while (newDate.getUTCDay() === 0 || newDate.getUTCDay() === 6);
+                        break;
+                    default: return; // No valid recurrence
+                }
+               
+                const nextTask = {
+                    ...task,
+                    date: newDate.toISOString().split('T')[0],
+                    done: false,
+                    createdAt: serverTimestamp(),
+                    completedBy: null,
+                };
+                delete nextTask.id; // Remove old ID before creating new doc
+
+                await addDoc(tasksRef, nextTask);
+            };
+
+            // --- Authentication & Initialization ---
+            const handleFirstRun = (isEmpty) => {
+                if (isEmpty) {
+                    setupScreen.classList.remove('hidden');
+                    loginScreen.classList.add('hidden');
+                } else {
+                    setupScreen.classList.add('hidden');
+                    loginScreen.classList.remove('hidden');
+                }
+                loadingSpinner.classList.add('hidden');
+            };
+
+            const createAdminUser = async (e) => {
+                e.preventDefault();
+                const name = $('#admin-name').value;
+                const team = $('#admin-team').value;
+                const loginId = $('#admin-login-id').value;
+                const tempPassword = $('#admin-password').value;
+
+                setupScreen.classList.add('hidden');
+                loadingSpinner.classList.remove('hidden');
+
+                try {
+                    await addDoc(usersRef, { name, team, role: 'Ops Manager', loginId, tempPassword });
+                    const userSnapshot = await getDocs(usersRef);
+                    state.users = userSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                    handleFirstRun(userSnapshot.empty);
+                } catch (error) {
+                    console.error("Failed to create admin user:", error);
+                    loadingSpinner.innerHTML = `<p class="text-red-500">Could not create user. Please refresh and try again.</p>`;
+                }
+            };
+
+            const attachRealtimeListeners = () => {
+                // Tasks Listener
+                if (state.unsubscribeTasks) state.unsubscribeTasks();
+                const tasksQuery = query(tasksRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => { 
+                    snapshot.docChanges().forEach(change => {
+                        if(change.type === 'added') {
+                            const newTask = change.doc.data();
+                            if (state.notificationsEnabled && (newTask.team === state.currentUser.team || newTask.team === 'All')) {
+                                const now = new Date();
+                                const taskTime = newTask.createdAt?.toDate();
+                                if(taskTime && (now - taskTime) < 5000) { 
+                                    showNotificationToast('New Task Assigned', `'${newTask.title}' for ${newTask.team}`);
+                                }
+                            }
+                        }
+                    });
+                    state.tasks = snapshot.docs.map(d => ({...d.data(), id: d.id })); 
+                    if(['today', 'upcoming'].includes(state.currentView)) renderView();
+                    if(state.currentView === 'admin' && state.calendar) {
+                         const teamColors = { 'Management': '#f59e0b', 'Security': '#ef4444', 'Hospitality': '#10b981', 'Maintenance': '#3b82f6', 'Retail': '#8b5cf6', 'Operations': '#64748b', 'All': '#0ea5e9' };
+                         const events = state.tasks.map(task => ({ title: task.title, start: task.date, color: teamColors[task.team] || '#64748b' }));
+                         state.calendar.update({ events: events });
+                    }
+                });
+                
+                // Users Listener
+                if (state.unsubscribeUsers) state.unsubscribeUsers();
+                state.unsubscribeUsers = onSnapshot(usersRef, s => { 
+                    state.users = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'admin') renderAdminView();
+                });
+
+                // Announcements Listener
+                if (state.unsubscribeAnnouncements) state.unsubscribeAnnouncements();
+                const announcementsQuery = query(announcementsRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeAnnouncements = onSnapshot(announcementsQuery, s => { 
+                    state.announcements = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'announcements') renderAnnouncements();
+                });
+                
+                // Files Listener
+                if (state.unsubscribeFiles) state.unsubscribeFiles();
+                const filesQuery = query(filesRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeFiles = onSnapshot(filesQuery, s => { 
+                    state.files = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'files') renderFilesView();
+                });
+
+                // Internal Events Listener
+                if (state.unsubscribeInternalEvents) state.unsubscribeInternalEvents();
+                const internalEventsQuery = query(internalEventsRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeInternalEvents = onSnapshot(internalEventsQuery, s => { 
+                    state.internalEvents = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'events') renderEventsView();
+                });
+
+                // Incidents Listener
+                if (state.unsubscribeIncidents) state.unsubscribeIncidents();
+                const incidentsQuery = query(incidentsRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeIncidents = onSnapshot(incidentsQuery, s => { 
+                    state.incidents = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'incidents') renderIncidentsView();
+                });
+
+                // Handovers Listener
+                 if (state.unsubscribeHandovers) state.unsubscribeHandovers();
+                const handoversQuery = query(handoversRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeHandovers = onSnapshot(handoversQuery, s => { 
+                    state.handovers = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'handovers') renderHandoversView();
+                });
+                
+                // Special Events Listener
+                if (state.unsubscribeSpecialEvents) state.unsubscribeSpecialEvents();
+                const specialEventsQuery = query(specialEventsRef, orderBy('createdAt', 'desc'));
+                state.unsubscribeSpecialEvents = onSnapshot(specialEventsQuery, s => { 
+                    state.specialEvents = s.docs.map(d=>({...d.data(), id:d.id})); 
+                    if(state.currentView === 'specialEvents') renderSpecialEventsView();
+                });
+
+
+                // Settings Listener (for admins)
+                if (state.currentUser.role === 'Ops Manager') {
+                    if(state.unsubscribeSettings) state.unsubscribeSettings();
+                    state.unsubscribeSettings = onSnapshot(settingsDocRef, (doc) => {
+                        state.settings = doc.data() || {};
+                        if (state.currentView === 'settings') {
+                            renderSettingsView();
+                        }
+                    });
+                }
+            };
+
+            const detachRealtimeListeners = () => {
+                if(state.unsubscribeTasks) state.unsubscribeTasks();
+                if(state.unsubscribeUsers) state.unsubscribeUsers();
+                if(state.unsubscribeAnnouncements) state.unsubscribeAnnouncements();
+                if(state.unsubscribeFiles) state.unsubscribeFiles();
+                if(state.unsubscribeSettings) state.unsubscribeSettings();
+                if(state.unsubscribeInternalEvents) state.unsubscribeInternalEvents();
+                if(state.unsubscribeIncidents) state.unsubscribeIncidents();
+                if(state.unsubscribeHandovers) state.unsubscribeHandovers();
+                if(state.unsubscribeSpecialEvents) state.unsubscribeSpecialEvents();
+            };
+            
+            const loginAsUser = async (userId) => {
+                state.currentUser = state.users.find(u => u.id === userId);
+                if (!state.currentUser) return;
+                
+                loginScreen.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                setTimeout(() => appContainer.style.opacity = 1, 10);
+
+                const isAdmin = ['Ops Manager', 'Duty Manager'].includes(state.currentUser.role);
+
+                if (isAdmin) {
+                    state.isClockedIn = true;
+                } else {
+                    try {
+                        if (state.currentUser.rotacloudId) {
+                            const result = await getClockInStatus({ rotacloudId: state.currentUser.rotacloudId });
+                            state.isClockedIn = result.data.isClockedIn;
+                        } else {
+                            state.isClockedIn = false;
+                        }
+                    } catch (error) {
+                        console.error("Error checking clock-in status:", error);
+                        state.isClockedIn = false; 
+                        showNotificationToast("Clock-in Error", "Could not verify shift status.");
+                    }
+                }
+
+                welcomeMessage.textContent = `Hello, ${state.currentUser.name.split(' ')[0]}`;
+                const statusText = isAdmin ? 'Admin Access' : (state.isClockedIn ? 'Clocked In' : 'Clocked Out');
+                const statusColor = state.isClockedIn ? 'bg-green-500' : 'bg-slate-400';
+                const statusHtml = `<div class="flex items-center space-x-2"><span class="h-2.5 w-2.5 ${statusColor} rounded-full"></span><span>${statusText}</span></div>`;
+                
+                $('#user-status-indicator').innerHTML = statusHtml;
+                $('#desktop-user-status').innerHTML = statusHtml;
+                $('#app-content').classList.toggle('hidden', !state.isClockedIn);
+                $('#clocked-out-view').classList.toggle('hidden', state.isClockedIn);
+                
+                if (state.isClockedIn) {
+                    attachRealtimeListeners();
+                    renderView();
+                } else {
+                    detachRealtimeListeners();
+                }
+            };
+
+            const logoutUser = () => {
+                state.currentUser = null;
+                state.isClockedIn = false;
+                detachRealtimeListeners();
+                appContainer.classList.add('hidden');
+                appContainer.style.opacity = 0;
+                loginScreen.classList.remove('hidden');
+            };
+
+            const initializeApplication = async () => {
+                const storedTheme = localStorage.getItem('theme') || 'system';
+                state.theme = storedTheme;
+                updateTheme();
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        try {
+                            const userSnapshot = await getDocs(usersRef);
+                            state.users = userSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                            state.appReady = true;
+                            handleFirstRun(userSnapshot.empty);
+                        } catch (error) {
+                            console.error("Firestore Error:", error);
+                            showError("Could not fetch user data. Please check Firestore security rules to ensure read access is allowed.");
+                        }
+                    } else {
+                        logoutUser();
+                        loadingSpinner.classList.add('hidden');
+                    }
+                });
+
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch(e) {
+                    console.error("Auth Error:", e);
+                    showError("Could not authenticate with the service. Please check your connection and Firebase setup.");
+                }
+            };
+            
+            // --- Theme Management ---
+            const updateTheme = () => {
+                const sunIcon = `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg><span>Light Mode</span>`;
+                const moonIcon = `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg><span>Dark Mode</span>`;
+                const systemIcon = `<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg><span>System</span>`;
+                
+                let isDark;
+                if (state.theme === 'system') {
+                    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                } else {
+                    isDark = state.theme === 'dark';
+                }
+
+                document.documentElement.classList.toggle('dark', isDark);
+
+                $('#theme-toggle-mobile').innerHTML = isDark ? sunIcon.split('<span>')[0] : moonIcon.split('<span>')[0];
+                $('#theme-toggle-desktop').innerHTML = state.theme === 'light' ? moonIcon : (state.theme === 'dark' ? systemIcon : sunIcon);
+                if (state.calendar) {
+                    state.calendar.setOptions({ settings: { visibility: { theme: isDark ? 'dark' : 'light' }}});
+                }
+            };
+
+            // --- Event Listeners ---
+            document.body.addEventListener('submit', async (e) => {
+                if (e.target.id === 'settings-form') {
+                    e.preventDefault();
+                    const roles = ['Ops Manager', 'Duty Manager', 'Team Leader', 'Team Member'];
+                    const apiKeys = {};
+                    roles.forEach(role => {
+                        const key = $(`#api-key-${role.replace(/\s+/g, '-')}`).value;
+                        if(key) apiKeys[role] = key;
+                    });
+
+                    const newSettings = {
+                        businessName: $('#setting-business-name').value,
+                        contactEmail: $('#setting-contact-email').value,
+                        apiKeys: apiKeys,
+                    };
+
+                    await setDoc(settingsDocRef, newSettings, { merge: true });
+                    showNotificationToast("Success", "Settings saved successfully!", 'success');
+                }
+            });
+
+            document.body.addEventListener('change', async (e) => {
+                 if (e.target.classList.contains('update-incident-status')) {
+                    const incidentId = e.target.dataset.incidentId;
+                    const newStatus = e.target.value;
+                    await updateDoc(doc(incidentsRef, incidentId), { status: newStatus });
+                }
+                if (e.target.classList.contains('subtask-checkbox')) {
+                    const specialEventId = e.target.dataset.eventId;
+                    const itemIndex = parseInt(e.target.dataset.index, 10);
+                    const event = state.specialEvents.find(e => e.id === specialEventId);
+                    if (event) {
+                        const newChecklist = [...event.checklist];
+                        newChecklist[itemIndex].done = e.target.checked;
+                        await updateDoc(doc(specialEventsRef, specialEventId), { checklist: newChecklist });
+                    }
+                }
+            });
+
+            document.body.addEventListener('click', async (e) => {
+                if (e.target.closest('#theme-toggle-mobile') || e.target.closest('#theme-toggle-desktop')) {
+                     const themes = ['light', 'dark', 'system'];
+                     const currentIndex = themes.indexOf(state.theme);
+                     state.theme = themes[(currentIndex + 1) % themes.length];
+                     localStorage.setItem('theme', state.theme);
+                     updateTheme();
+                }
+                
+                const navBtn = e.target.closest('.sidebar-nav-item');
+                if(navBtn && state.currentUser) {
+                    state.currentView = navBtn.dataset.view;
+                    renderView();
+                }
+
+                if (e.target.closest('#logout-btn')) logoutUser();
+                
+                const viewTaskBtn = e.target.closest('.view-task-details-btn');
+                if (viewTaskBtn) showTaskDetailModal(viewTaskBtn.dataset.taskId);
+                const viewSpecialEventBtn = e.target.closest('.view-special-event-btn');
+                if (viewSpecialEventBtn) showSpecialEventDetailModal(viewSpecialEventBtn.dataset.eventId);
+
+
+                if (e.target.closest('#fab-add-task') || e.target.closest('#fab-add-task-from-empty')) showAddTaskModal();
+                if (e.target.closest('#fab-add-announcement') || e.target.closest('#fab-add-announcement-from-empty')) showAddAnnouncementModal();
+                if (e.target.closest('#fab-add-internal-event') || e.target.closest('#show-add-internal-event-modal-from-empty')) showAddInternalEventModal();
+                if (e.target.closest('#show-report-incident-modal') || e.target.closest('#show-report-incident-modal-from-empty')) showReportIncidentModal();
+
+                if (e.target.closest('#show-create-user-modal')) showUserModal();
+                if (e.target.closest('#show-add-handover-modal') || e.target.closest('#show-add-handover-modal-from-empty')) showAddHandoverModal();
+                if (e.target.closest('#show-upload-file-modal') || e.target.closest('#show-upload-file-modal-from-empty')) showUploadFileModal();
+                if (e.target.closest('#show-add-special-event-modal') || e.target.closest('#show-add-special-event-modal-from-empty')) showAddSpecialEventModal();
+
+
+                const editUserBtn = e.target.closest('.edit-user-btn');
+                if (editUserBtn) {
+                    const user = state.users.find(u => u.id === editUserBtn.dataset.userId);
+                    if (user) showUserModal(user);
+                }
+                
+                if (e.target.closest('#enable-notifications-btn')) {
+                    // This now calls the function to request permission and save the token
+                    await requestNotificationPermission();
+                    renderAdminView(); // Re-render to show updated status
+                }
+
+                const tabBtn = e.target.closest('.tab-button');
+                if(tabBtn) {
+                    state.eventView = tabBtn.dataset.view;
+                    $('#event-tabs').querySelector('.active').classList.remove('active');
+                    tabBtn.classList.add('active');
+                    renderEventsView();
+                }
+
+                const delTaskBtn = e.target.closest('.delete-task-btn');
+                if(delTaskBtn) {
+                    const taskToDelete = state.tasks.find(t => t.id === delTaskBtn.dataset.taskId);
+                    const isRecurring = taskToDelete && taskToDelete.recurring !== 'none';
+                    const { confirmed, isChecked } = await createConfirmationModal(
+                        'Delete Task?', 
+                        `This action cannot be undone.`, 
+                        { includeCheckbox: isRecurring, checkboxLabel: 'Delete all future recurring tasks.' }
+                    );
+
+                    if(confirmed) {
+                         if (isRecurring && isChecked) {
+                            const batch = writeBatch(db);
+                            const recurringSeries = state.tasks.filter(t => t.recurringId === taskToDelete.recurringId && new Date(t.date) >= new Date(taskToDelete.date));
+                            recurringSeries.forEach(t => batch.delete(doc(tasksRef, t.id)));
+                            await batch.commit();
+                        } else {
+                            await deleteDoc(doc(tasksRef, delTaskBtn.dataset.taskId));
+                        }
+                    }
+                }
+                
+                const delAnnBtn = e.target.closest('.delete-announcement-btn');
+                if(delAnnBtn) {
+                    const { confirmed } = await createConfirmationModal('Delete Announcement?', 'This action cannot be undone.');
+                    if(confirmed) await deleteDoc(doc(announcementsRef, delAnnBtn.dataset.announcementId));
+                }
+
+                 const delInternalEventBtn = e.target.closest('.delete-internal-event-btn');
+                if(delInternalEventBtn) {
+                    const { confirmed } = await createConfirmationModal('Delete Internal Event?', 'This action cannot be undone.');
+                    if(confirmed) await deleteDoc(doc(internalEventsRef, delInternalEventBtn.dataset.eventId));
+                }
+                
+                const delIncidentBtn = e.target.closest('.delete-incident-btn');
+                if (delIncidentBtn) {
+                    const incident = state.incidents.find(i => i.id === delIncidentBtn.dataset.incidentId);
+                    if (incident) {
+                        const { confirmed } = await createConfirmationModal('Delete Incident?', `Are you sure you want to delete the incident: "${incident.title}"?`);
+                        if (confirmed) {
+                            await deleteDoc(doc(incidentsRef, incident.id));
+                            if (incident.photoPath) {
+                                await deleteObject(ref(storage, incident.photoPath));
+                            }
+                        }
+                    }
+                }
+                
+                const delHandoverBtn = e.target.closest('.delete-handover-btn');
+                 if (delHandoverBtn) {
+                    const { confirmed } = await createConfirmationModal('Delete Handover?', `This will permanently delete this shift report.`);
+                    if(confirmed) await deleteDoc(doc(handoversRef, delHandoverBtn.dataset.handoverId));
+                }
+                
+                const delSpecialEventBtn = e.target.closest('.delete-special-event-btn');
+                 if (delSpecialEventBtn) {
+                    const { confirmed } = await createConfirmationModal('Delete Event Checklist?', `This will permanently delete this checklist and all its items.`);
+                    if(confirmed) await deleteDoc(doc(specialEventsRef, delSpecialEventBtn.dataset.eventId));
+                }
+
+
+                const delFileBtn = e.target.closest('.delete-file-btn');
+                if (delFileBtn) {
+                    const file = state.files.find(f => f.id === delFileBtn.dataset.fileId);
+                    if (file) {
+                        const { confirmed } = await createConfirmationModal('Delete File?', `Are you sure you want to delete "${file.title}"? This is permanent.`);
+                        if (confirmed) {
+                            try {
+                                const fileRef = ref(storage, file.storagePath);
+                                await deleteObject(fileRef);
+                                await deleteDoc(doc(filesRef, file.id));
+                                showNotificationToast("Success", "File deleted successfully.", "success");
+                            } catch (error) {
+                                console.error("Error deleting file:", error);
+                                showNotificationToast("Error", "Could not delete file.");
+                            }
+                        }
+                    }
+                }
+
+                const delUserBtn = e.target.closest('.delete-user-btn');
+                if (delUserBtn) {
+                    const userName = delUserBtn.dataset.userName;
+                    const { confirmed } = await createConfirmationModal('Delete User?', `Are you sure you want to delete ${userName}? This action is permanent.`);
+                    if(confirmed) await deleteDoc(doc(usersRef, delUserBtn.dataset.userId));
+                }
+
+                const checkbox = e.target.closest('.task-checkbox');
+                if(checkbox) {
+                    const task = state.tasks.find(t => t.id === checkbox.dataset.taskId);
+                    if(task && !task.done) { 
+                         await updateDoc(doc(tasksRef, task.id), { done: true, completedBy: state.currentUser.name });
+                         handleRecurringTaskCompletion(task);
+                    } else if (task && task.done) {
+                        await updateDoc(doc(tasksRef, task.id), { done: false, completedBy: null });
+                    }
+                }
+            });
+            
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const loginId = $('#login-id').value;
+                const password = $('#login-password').value;
+                const errorEl = $('#login-error');
+                errorEl.textContent = '';
+
+                // 1. Query for the user by their unique Login ID first.
+                const q = query(usersRef, where("loginId", "==", loginId));
+                const querySnapshot = await getDocs(q);
+
+                // 2. Check if a user was found and if the password matches.
+                if (querySnapshot.empty) {
+                    errorEl.textContent = 'Invalid login ID or password.';
+                    return;
+                }
+
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+
+                if (userData.tempPassword === password) {
+                    // 3. If everything matches, log the user in.
+                    loginAsUser(userDoc.id);
+                } else {
+                    errorEl.textContent = 'Invalid login ID or password.';
+                }
+            });
+
+            createAdminForm.addEventListener('submit', createAdminUser);
+
+            const resetAppBtn = $('#reset-app-btn');
+            if (resetAppBtn) {
+                resetAppBtn.addEventListener('click', async () => {
+                    const { confirmed } = await createConfirmationModal(
+                        'Reset Application Data?',
+                        'This will permanently delete all local data (users, tasks, etc.) and restart the app. This is for development purposes if you have forgotten the admin login.',
+                        { confirmText: 'Yes, Reset Data', confirmClass: 'btn-danger' }
+                    );
+
+                    if (confirmed) {
+                        loadingSpinner.classList.remove('hidden');
+                        // Firebase's web SDK uses IndexedDB for offline persistence.
+                        // We must delete this database to clear all cached authentication and data.
+                        const dbName = `firebase-local-storage-database`;
+                        const req = indexedDB.deleteDatabase(dbName);
+                        
+                        req.onsuccess = () => {
+                            console.log("Local database deleted successfully. Reloading...");
+                            location.reload();
+                        };
+                        req.onerror = (err) => {
+                            console.error("Couldn't delete database:", err);
+                            loadingSpinner.classList.add('hidden');
+                            showNotificationToast("Error", "Could not reset data. Try clearing site data in browser settings.");
+                        };
+                        req.onblocked = () => {
+                            console.warn("Database deletion blocked. Close other tabs with this app open.");
+                            loadingSpinner.classList.add('hidden');
+                            showNotificationToast("Blocked", "Please close other tabs of this app and try again.");
+                        };
+                    }
+                });
+            }
+
+            // --- Modal Content & Logic ---
+            const showAddHandoverModal = () => {
+                const modalId = 'add-handover-modal';
+                const content = `
+                    <form id="add-handover-form">
+                        <h3 class="text-xl font-bold mb-6">Create Shift Handover</h3>
+                        <div class="space-y-4">
+                             <div>
+                                <label for="handover-ongoing" class="block text-sm font-medium">Ongoing Incidents</label>
+                                <textarea id="handover-ongoing" rows="3" class="input-field" placeholder="Note any incidents that require follow-up..."></textarea>
+                            </div>
+                            <div>
+                                <label for="handover-outstanding" class="block text-sm font-medium">Outstanding Tasks</label>
+                                <textarea id="handover-outstanding" rows="3" class="input-field" placeholder="List any critical tasks not completed..."></textarea>
+                            </div>
+                            <div>
+                                <label for="handover-notes" class="block text-sm font-medium">General Notes</label>
+                                <textarea id="handover-notes" rows="4" class="input-field" placeholder="Add any other relevant information for the next shift..."></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" data-action="cancel">Cancel</button>
+                            <button type="submit" class="btn-primary">Submit Handover</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('click', e => {
+                    if (e.target.dataset.action === 'cancel') hideModal(modalId);
+                });
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await addDoc(handoversRef, {
+                        ongoingIncidents: $('#handover-ongoing').value,
+                        outstandingTasks: $('#handover-outstanding').value,
+                        generalNotes: $('#handover-notes').value,
+                        authorName: state.currentUser.name,
+                        authorId: state.currentUser.id,
+                        createdAt: serverTimestamp(),
+                    });
+                    hideModal(modalId);
+                });
+            };
+
+             const showReportIncidentModal = () => {
+                const modalId = 'report-incident-modal';
+                const content = `
+                    <form id="report-incident-form">
+                        <h3 class="text-xl font-bold mb-6">Report New Incident</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="incident-title" class="block text-sm font-medium">Incident Title</label>
+                                <input type="text" id="incident-title" required class="input-field" placeholder="e.g., First Aid at East Gate">
+                            </div>
+                             <div>
+                                <label for="incident-location" class="block text-sm font-medium">Location</label>
+                                <input type="text" id="incident-location" required class="input-field" placeholder="e.g., Courtyard, near fountains">
+                            </div>
+                            <div>
+                                <label for="incident-details" class="block text-sm font-medium">Details</label>
+                                <textarea id="incident-details" required rows="4" class="input-field" placeholder="Describe what happened..."></textarea>
+                            </div>
+                             <div>
+                                <label for="incident-photo" class="block text-sm font-medium">Attach Photo (Optional)</label>
+                                <input type="file" id="incident-photo" accept="image/*" class="input-field file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" data-action="cancel">Cancel</button>
+                            <button type="submit" class="btn-primary">Submit Report</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                 modalEl.addEventListener('click', e => {
+                    if (e.target.dataset.action === 'cancel') hideModal(modalId);
+                });
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const formButtons = modalEl.querySelectorAll('button');
+                    formButtons.forEach(b => b.disabled = true);
+                    
+                    const photoFile = $('#incident-photo').files[0];
+                    let photoURL = null;
+                    let photoPath = null;
+
+                    try {
+                        if (photoFile) {
+                            const uniqueFileName = `${Date.now()}-${photoFile.name}`;
+                            photoPath = `/artifacts/${appId}/public/incidents/${uniqueFileName}`;
+                            const storageRef = ref(storage, photoPath);
+                            await uploadBytes(storageRef, photoFile);
+                            photoURL = await getDownloadURL(storageRef);
+                        }
+
+                        await addDoc(incidentsRef, {
+                            title: $('#incident-title').value,
+                            location: $('#incident-location').value,
+                            details: $('#incident-details').value,
+                            reporterName: state.currentUser.name,
+                            reporterId: state.currentUser.id,
+                            status: 'Open',
+                            photoURL: photoURL,
+                            photoPath: photoPath,
+                            createdAt: serverTimestamp(),
+                        });
+                        
+                        hideModal(modalId);
+                        showNotificationToast("Success", "Incident reported successfully.", "success");
+                    } catch(err) {
+                        console.error("Incident report failed:", err);
+                        showNotificationToast("Error", "Could not submit report.");
+                        formButtons.forEach(b => b.disabled = false);
+                    }
+                });
+            };
+
+             const showAddInternalEventModal = () => {
+                const modalId = 'add-internal-event-modal';
+                const content = `
+                    <form id="add-internal-event-form">
+                        <h3 class="text-xl font-bold mb-6">Post Internal Event</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="internal-event-title" class="block text-sm font-medium">Title</label>
+                                <input type="text" id="internal-event-title" required class="input-field" placeholder="e.g., VIP Arrival">
+                            </div>
+                            <div>
+                                <label for="internal-event-details" class="block text-sm font-medium">Details</label>
+                                <textarea id="internal-event-details" required rows="4" class="input-field" placeholder="Add key information, times, and locations..."></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" data-action="cancel">Cancel</button>
+                            <button type="submit" class="btn-primary">Post Event</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('click', e => {
+                    if (e.target.dataset.action === 'cancel') hideModal(modalId);
+                });
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await addDoc(internalEventsRef, {
+                        title: $('#internal-event-title').value,
+                        details: $('#internal-event-details').value,
+                        authorName: state.currentUser.name,
+                        authorId: state.currentUser.id,
+                        createdAt: serverTimestamp(),
+                    });
+                    hideModal(modalId);
+                });
+            };
+
+            const showUploadFileModal = () => {
+                const modalId = 'upload-file-modal';
+                const content = `
+                    <form id="upload-file-form">
+                        <h3 class="text-xl font-bold mb-6">Upload File</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="file-title" class="block text-sm font-medium">File Title</label>
+                                <input type="text" id="file-title" required class="input-field" placeholder="e.g., Bin Plan for Live Events">
+                            </div>
+                            <div>
+                                <label for="file-input" class="block text-sm font-medium">File</label>
+                                <input type="file" id="file-input" required class="input-field file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
+                            </div>
+                            <div id="upload-progress-container" class="hidden w-full bg-slate-200 rounded-full h-2.5 dark:bg-slate-700">
+                                <div id="upload-progress-bar" class="bg-sky-600 h-2.5 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" data-action="cancel">Cancel</button>
+                            <button type="submit" class="btn-primary">Upload</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('click', e => {
+                    if (e.target.dataset.action === 'cancel') hideModal(modalId);
+                });
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const title = $('#file-title').value;
+                    const file = $('#file-input').files[0];
+                    if (!file) return;
+
+                    const formButtons = modalEl.querySelectorAll('button');
+                    formButtons.forEach(b => b.disabled = true);
+                    $('#upload-progress-container').classList.remove('hidden');
+
+                    try {
+                        const uniqueFileName = `${Date.now()}-${file.name}`;
+                        const storagePath = `/artifacts/${appId}/public/files/${uniqueFileName}`;
+                        const storageRef = ref(storage, storagePath);
+
+                        await uploadBytes(storageRef, file);
+                        const downloadURL = await getDownloadURL(storageRef);
+
+                        await addDoc(filesRef, {
+                            title: title,
+                            fileName: file.name,
+                            storagePath: storagePath,
+                            downloadURL: downloadURL,
+                            uploaderName: state.currentUser.name,
+                            uploaderId: state.currentUser.id,
+                            createdAt: serverTimestamp(),
+                        });
+                        
+                        hideModal(modalId);
+                        showNotificationToast("Success", "File uploaded successfully.", "success");
+                    } catch (error) {
+                        console.error("File upload failed:", error);
+                        showNotificationToast("Error", "File upload failed. Please try again.");
+                        formButtons.forEach(b => b.disabled = false);
+                        $('#upload-progress-container').classList.add('hidden');
+                    }
+                });
+            };
+
+            const showAddTaskModal = (date = null) => {
+                const modalId = 'add-task-modal';
+                const today = new Date().toISOString().split('T')[0];
+                const content = `
+                    <form id="add-task-form">
+                        <h3 class="text-xl font-bold mb-6">Add New Task</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="task-title" class="block text-sm font-medium">Task Title</label>
+                                <input type="text" id="task-title" required class="input-field">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="task-team" class="block text-sm font-medium">Team</label>
+                                    <select id="task-team" required class="input-field"><option>Management</option><option>Security</option><option>Hospitality</option><option>Maintenance</option><option>Retail</option><option>Operations</option><option>All</option></select>
+                                </div>
+                                <div>
+                                    <label for="task-date" class="block text-sm font-medium">Date</label>
+                                    <input type="date" id="task-date" value="${date || today}" required class="input-field">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="task-time" class="block text-sm font-medium">Time (for notification)</label>
+                                    <input type="time" id="task-time" class="input-field">
+                                </div>
+                                 <div>
+                                    <label for="task-recurring" class="block text-sm font-medium">Recurring</label>
+                                    <select id="task-recurring" class="input-field">
+                                        <option value="none">None</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekdays">Weekdays</option>
+                                        <option value="weekly">Every week</option>
+                                        <option value="2weeks">Every 2 weeks</option>
+                                        <option value="3weeks">Every 3 weeks</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" onclick="document.getElementById('${modalId}').dispatchEvent(new CustomEvent('close'))">Cancel</button>
+                            <button type="submit" class="btn-primary">Add Task</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('close', () => hideModal(modalId));
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const recurring = $('#task-recurring').value;
+                    const taskData = {
+                        title: $('#task-title').value,
+                        team: $('#task-team').value,
+                        date: $('#task-date').value,
+                        timeBlock: $('#task-time').value, // Use specific time for notifications
+                        done: false,
+                        recurring: recurring,
+                        createdAt: serverTimestamp(),
+                        recurringId: recurring !== 'none' ? crypto.randomUUID() : null,
+                    };
+                    await addDoc(tasksRef, taskData);
+                    hideModal(modalId);
+                });
+            };
+            
+            const showAddAnnouncementModal = () => {
+                const modalId = 'add-announcement-modal';
+                const content = `
+                    <form id="add-announcement-form">
+                        <h3 class="text-xl font-bold mb-6">New Announcement</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="announcement-title" class="block text-sm font-medium">Title</label>
+                                <input type="text" id="announcement-title" required class="input-field">
+                            </div>
+                            <div>
+                                <label for="announcement-content" class="block text-sm font-medium">Content</label>
+                                <textarea id="announcement-content" required rows="5" class="input-field"></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" onclick="document.getElementById('${modalId}').dispatchEvent(new CustomEvent('close'))">Cancel</button>
+                            <button type="submit" class="btn-primary">Post Announcement</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('close', () => hideModal(modalId));
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    await addDoc(announcementsRef, { 
+                        title: $('#announcement-title').value, 
+                        content: $('#announcement-content').value,
+                        authorName: state.currentUser.name,
+                        authorId: state.currentUser.id,
+                        createdAt: serverTimestamp() 
+                    });
+                    hideModal(modalId);
+                });
+            };
+
+            const showUserModal = (user = null) => {
+                const modalId = user ? 'edit-user-modal' : 'create-user-modal';
+                const isEdit = user !== null;
+                const roles = ['Ops Manager', 'Duty Manager', 'Team Leader', 'Team Member'];
+                const teams = ['Management', 'Security', 'Hospitality', 'Maintenance', 'Retail', 'Operations'];
+                const content = `
+                    <form id="user-form">
+                        <h3 class="text-xl font-bold mb-6">${isEdit ? 'Edit User' : 'Create New User'}</h3>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="user-name" class="block text-sm font-medium">Full Name</label>
+                                    <input type="text" id="user-name" value="${user?.name || ''}" required class="input-field">
+                                </div>
+                                <div>
+                                    <label for="user-login-id" class="block text-sm font-medium">Login ID</label>
+                                    <input type="text" id="user-login-id" value="${user?.loginId || ''}" required class="input-field">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="user-team" class="block text-sm font-medium">Team (Department)</label>
+                                    <select id="user-team" required class="input-field">
+                                        ${teams.map(t => `<option ${user?.team === t ? 'selected' : ''}>${t}</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="user-role" class="block text-sm font-medium">Role</label>
+                                    <select id="user-role" required class="input-field">
+                                        ${roles.map(r => `<option ${user?.role === r ? 'selected' : ''}>${r}</option>`).join('')}
+                                    </select>
+                                </div>
+                            </div>
+                             <div>
+                                <label for="user-temp-password" class="block text-sm font-medium">${isEdit ? 'New Password (Optional)' : 'Temporary Password'}</label>
+                                <input type="password" id="user-temp-password" ${isEdit ? '' : 'required'} class="input-field">
+                            </div>
+                             <div>
+                                <label for="user-rotacloud-id" class="block text-sm font-medium">Rotacloud User ID (Optional)</label>
+                                <input type="text" id="user-rotacloud-id" value="${user?.rotacloudId || ''}" class="input-field" placeholder="Enter ID from Rotacloud">
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-3 mt-8">
+                            <button type="button" class="btn-secondary" onclick="document.getElementById('${modalId}').dispatchEvent(new CustomEvent('close'))">Cancel</button>
+                            <button type="submit" class="btn-primary">${isEdit ? 'Save Changes' : 'Create User'}</button>
+                        </div>
+                    </form>
+                `;
+                showModal(modalId, content);
+                const modalEl = $(`#${modalId}`);
+                modalEl.addEventListener('close', () => hideModal(modalId));
+                modalEl.querySelector('form').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const newPassword = $('#user-temp-password').value;
+                    const userData = {
+                        name: $('#user-name').value,
+                        loginId: $('#user-login-id').value,
+                        team: $('#user-team').value,
+                        role: $('#user-role').value,
+                        rotacloudId: $('#user-rotacloud-id').value,
+                    };
+
+                    if (newPassword) {
+                        userData.tempPassword = newPassword;
+                    }
+
+                    if (isEdit) {
+                        await updateDoc(doc(usersRef, user.id), userData);
+                    } else {
+                        await addDoc(usersRef, userData);
+                    }
+                    hideModal(modalId);
+                });
+            };
+
+            // --- Initial Load ---
+            initializeApplication();
+        });
+    </script>
+</body>
+</html>
+
+tps://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!--- Calendar Styles --->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/build/vanilla-calendar.min.css">
